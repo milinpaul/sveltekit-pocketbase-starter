@@ -1,0 +1,15 @@
+services:
+  db:
+    build: .
+    restart: 'always'
+    expose:
+      - 80
+    ports:
+      - ${PORTDB:-8090}:80
+    volumes:
+      - dbdata:/pb/pb_data
+      - ./db/pb_migrations:/pb/pb_migrations
+      - ./db/pb_hooks:/pb/pb_hooks
+
+volumes:
+  dbdata:
