@@ -4,7 +4,6 @@ import { dev } from "$app/environment";
 
 export const handle = (async ({ event, resolve }) => {
     const IS_SECURE = dev === true ? false : true
-    
     event.locals.pb = db
     event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
 
