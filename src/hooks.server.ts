@@ -1,10 +1,10 @@
 import type { Handle } from "@sveltejs/kit";
-import { db } from "$lib/server/pocketbase";
 import { dev } from "$app/environment";
+import pocketbase from "$lib/server/pocketbase";
 
 export const handle = (async ({ event, resolve }) => {
     const IS_SECURE = dev === true ? false : true
-    event.locals.pb = db
+    event.locals.pb = pocketbase
     event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
 
 	if (event.locals.pb.authStore.isValid) {
