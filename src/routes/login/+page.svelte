@@ -15,7 +15,7 @@
       <div class="grid gap-4">
         <div class="grid gap-2">
           <Label for="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input id="email" type="email" placeholder="m@example.com" autofocus />
         </div>
         <div class="grid gap-2">
           <div class="flex items-center">
