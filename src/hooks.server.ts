@@ -17,7 +17,6 @@ export const handle = (async ({ event, resolve }) => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_: unknown) {
-        console.log('error in hooks')
 		event.locals.pb.authStore.clear();
 		if(event.url.pathname !== '/login' && event.url.pathname !== '/register') {
 			throw redirect(303, '/login')
