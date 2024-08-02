@@ -9,7 +9,7 @@ export const handle = (async ({ event, resolve }) => {
 
 	try {
 		//refresh the auth if it is valid
-		if (!event.locals.pb.authStore.isValid) {
+		if (event.locals.pb.authStore.isValid) {
 			await event.locals.pb.collection('users').authRefresh();
 		}
 		//spread the model to locals.user to be available in all pages

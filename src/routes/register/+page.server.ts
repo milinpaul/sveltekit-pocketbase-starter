@@ -1,7 +1,8 @@
 import { z } from 'zod';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 
 import type { PageServerLoad, Actions } from './$types';
+import { ClientResponseError } from 'pocketbase';
 
 const registerSchema = z
 	.object({
@@ -48,28 +49,56 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	register: async ({ request }) => {
+	register: async ({ request, locals }) => {
+		const pb = locals.pb;
 		const formData = await request.formData();
 
 		const data = Object.fromEntries([...formData]);
 		console.log(data);
 		try {
 			const result = registerSchema.parse(data);
-			console.log('SUCCESS');
 			console.log(result);
 
-			// Create user in pocketbase db.
+			const { username, email, password, confirmPassword: passwordConfirm } = result;
+			const userData = {
+				username,
+				email,
+				emailVisibility: true,
+				password,
+				passwordConfirm
+			};
 
-			// Send user verification email from pocketbase.
+			//TODO: validate for user already exists.
+
+			// Create user in pocketbase db.
+			const record = await pb.collection('users').create(userData);
+			console.log('record', record);
+
+			if (record.id) {
+				// Send user verification email from pocketbase.
+				await pb.collection('users').requestVerification(email);
+			}
+
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
-			const { fieldErrors: errors } = err.flatten();
+			console.log('error', err);
+			console.log('error', err?.response);
 			const { password, confirmPassword, ...rest } = data;
+			if (err instanceof z.ZodError) {
+				const { fieldErrors: errors } = err.flatten();
+				return fail(422, {
+					data: rest,
+					errors
+				});
+			}
 
-			return fail(422, {
-				data: rest,
-				errors
-			});
+			if (err instanceof ClientResponseError) {
+				return fail(422, {
+					data: rest,
+					message: err?.response?.message
+				});
+			}
 		}
+		throw redirect(303, '/login');
 	}
 };
