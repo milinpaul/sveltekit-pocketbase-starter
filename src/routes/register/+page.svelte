@@ -24,9 +24,6 @@
 							class={form?.errors?.username ? 'text-red-500' : 'text-foreground'}>Username</Label
 						>
 						<Input
-							class={form?.errors?.username
-								? 'border-red-500 focus-visible:ring-red-300'
-								: 'border-input'}
 							id="username"
 							name="username"
 							placeholder="Username"

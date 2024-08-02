@@ -57,10 +57,15 @@ export const actions: Actions = {
 			const result = registerSchema.parse(data);
 			console.log('SUCCESS');
 			console.log(result);
-		} catch (err: unknown) {
+
+			// Create user in pocketbase db.
+
+			// Send user verification email from pocketbase.
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (err: any) {
 			const { fieldErrors: errors } = err.flatten();
 			const { password, confirmPassword, ...rest } = data;
-			console.log('errors', errors);
+
 			return fail(422, {
 				data: rest,
 				errors
