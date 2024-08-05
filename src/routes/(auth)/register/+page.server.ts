@@ -71,7 +71,6 @@ export const actions: Actions = {
 			// 	await pb.collection('users').requestVerification(email);
 			// }
 		} catch (err) {
-			console.log('error', err);
 			const { password, confirmPassword, ...rest } = data;
 
 			if (err instanceof z.ZodError) {
