@@ -1,10 +1,13 @@
 <script lang="ts">
+	import { LoaderCircle, TriangleAlert } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
+	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 
 	export let form;
+	let formLoading = false;
 </script>
 
 <div class="flex h-screen w-full items-center justify-center px-4">
@@ -16,24 +19,27 @@
 					Enter your information to create an account
 				</p>
 			</div>
-			<form method="POST" action="?/register" use:enhance>
+			{#if form?.message}
+				<Alert.Root variant="destructive">
+					<TriangleAlert class="h-4 w-4" />
+					<Alert.Title>Error</Alert.Title>
+					<Alert.Description>
+						{form?.message}
+					</Alert.Description>
+				</Alert.Root>
+			{/if}
+			<form
+				method="POST"
+				action="?/register"
+				use:enhance={() => {
+					formLoading = true;
+					return async ({ update }) => {
+						await update();
+						formLoading = false;
+					};
+				}}
+			>
 				<div class="grid gap-4">
-					<div class="grid gap-2">
-						<Label
-							for="username"
-							class={form?.errors?.username ? 'text-red-500' : 'text-foreground'}>Username</Label
-						>
-						<Input
-							id="username"
-							name="username"
-							placeholder="Username"
-							value={form?.data?.username ?? ''}
-							autofocus
-						/>
-						{#if form?.errors?.username}
-							<span class="text-sm text-red-500">{form?.errors?.username[0]}</span>
-						{/if}
-					</div>
 					<div class="grid gap-2">
 						<Label for="email" class={form?.errors?.email ? 'text-red-500' : 'text-foreground'}
 							>Email</Label
@@ -74,7 +80,12 @@
 							<span class="text-sm text-red-500">{form?.errors?.confirmPassword[0]}</span>
 						{/if}
 					</div>
-					<Button type="submit" class="w-full">Create an account</Button>
+					<Button type="submit" class="w-full" disabled={formLoading}>
+						{#if formLoading}
+							<LoaderCircle class="mr-2 h-4 w-4 animate-spin" />
+						{/if}
+						Create an account
+					</Button>
 					<Button variant="outline" class="w-full">Sign up with Google</Button>
 				</div>
 			</form>

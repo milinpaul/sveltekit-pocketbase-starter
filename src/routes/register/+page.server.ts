@@ -6,10 +6,6 @@ import { ClientResponseError } from 'pocketbase';
 
 const registerSchema = z
 	.object({
-		username: z
-			.string({ required_error: 'User name is required' })
-			.min(1, { message: 'User name is required' })
-			.trim(),
 		email: z
 			.string({ required_error: 'Email is required' })
 			.min(1, { message: 'Email is required' })
@@ -59,31 +55,25 @@ export const actions: Actions = {
 			const result = registerSchema.parse(data);
 			console.log(result);
 
-			const { username, email, password, confirmPassword: passwordConfirm } = result;
+			const { email, password, confirmPassword: passwordConfirm } = result;
 			const userData = {
-				username,
 				email,
 				emailVisibility: true,
 				password,
 				passwordConfirm
 			};
 
-			//TODO: validate for user already exists.
-
 			// Create user in pocketbase db.
-			const record = await pb.collection('users').create(userData);
-			console.log('record', record);
+			await pb.collection('users').create(userData);
 
-			if (record.id) {
-				// Send user verification email from pocketbase.
-				await pb.collection('users').requestVerification(email);
-			}
-
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		} catch (err: any) {
+			// if (record.id) {
+			// 	// Send user verification email from pocketbase.
+			// 	await pb.collection('users').requestVerification(email);
+			// }
+		} catch (err) {
 			console.log('error', err);
-			console.log('error', err?.response);
 			const { password, confirmPassword, ...rest } = data;
+
 			if (err instanceof z.ZodError) {
 				const { fieldErrors: errors } = err.flatten();
 				return fail(422, {
@@ -95,7 +85,7 @@ export const actions: Actions = {
 			if (err instanceof ClientResponseError) {
 				return fail(422, {
 					data: rest,
-					message: err?.response?.message
+					message: err?.response?.data?.email?.message
 				});
 			}
 		}
