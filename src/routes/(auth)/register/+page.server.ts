@@ -36,8 +36,6 @@ const registerSchema = z
 		}
 	});
 
-// type FormErrors = z.inferFlattenedErrors<typeof registerSchema>;
-
 export const load: PageServerLoad = async () => {
 	return {
 		title: 'Register'
@@ -48,12 +46,10 @@ export const actions: Actions = {
 	register: async ({ request, locals }) => {
 		const pb = locals.pb;
 		const formData = await request.formData();
-
 		const data = Object.fromEntries([...formData]);
-		console.log(data);
+
 		try {
 			const result = registerSchema.parse(data);
-			console.log(result);
 
 			const { email, password, confirmPassword: passwordConfirm } = result;
 			const userData = {

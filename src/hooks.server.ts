@@ -7,13 +7,20 @@ export const handle = (async ({ event, resolve }) => {
 	event.locals.pb = pocketbase;
 	event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
 
+	if (!event.locals.pb.authStore.isValid) {
+		event.locals.pb.authStore.clear();
+		if (event.url.pathname !== '/login' && event.url.pathname !== '/register') {
+			throw redirect(303, '/login');
+		}
+	}
+
 	try {
 		//refresh the auth if it is valid
 		if (event.locals.pb.authStore.isValid) {
 			await event.locals.pb.collection('users').authRefresh();
+			//spread the model to locals.user to be available in all pages
+			event.locals.user = { ...event.locals.pb.authStore.model };
 		}
-		//spread the model to locals.user to be available in all pages
-		event.locals.user = { ...event.locals.pb.authStore.model };
 	} catch (_: unknown) {
 		event.locals.pb.authStore.clear();
 		if (event.url.pathname !== '/login' && event.url.pathname !== '/register') {
