@@ -34,6 +34,7 @@ export const handle = (async ({ event, resolve }) => {
 		'set-cookie',
 		event.locals.pb.authStore.exportToCookie({ secure: IS_SECURE })
 	);
+	response.headers.set('cache-control', 'no-cache');
 
 	return response;
 }) satisfies Handle;

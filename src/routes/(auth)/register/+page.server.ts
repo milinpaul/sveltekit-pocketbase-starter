@@ -36,7 +36,10 @@ const registerSchema = z
 		}
 	});
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ locals }) => {
+	if (locals.pb.authStore.isValid) {
+		return redirect(302, '/home');
+	}
 	return {
 		title: 'Register'
 	};

@@ -11,9 +11,9 @@ declare global {
 			user: AuthModel;
 			pb: TypedPocketBase;
 		}
-		interface PageData {
-			title: string;
-		}
+		// interface PageData {
+		// 	title: string;
+		// }
 		// interface PageState {}
 		// interface Platform {}
 	}

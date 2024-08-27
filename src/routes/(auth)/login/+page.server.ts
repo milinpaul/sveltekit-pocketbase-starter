@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 
 import type { PageServerLoad, Actions } from './$types';
 
@@ -15,19 +15,26 @@ const loginSchema = z.object({
 		.trim()
 });
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ locals }) => {
+	if (locals.pb.authStore.isValid) {
+		return redirect(302, '/home');
+	}
+
 	return {
 		title: 'Login'
 	};
 };
 
 export const actions = {
-	login: async ({ request }) => {
-		const formData = Object.fromEntries([...(await request.formData())]);
+	login: async ({ request, locals }) => {
+		const formData = Object.fromEntries([...(await request.formData())]) as {
+			email: string;
+			password: string;
+		};
 
 		try {
-			const result = loginSchema.parse(formData);
-			console.log('result', result);
+			loginSchema.parse(formData);
+			await locals.pb.collection('users').authWithPassword(formData.email, formData.password);
 		} catch (error) {
 			console.log('error', error);
 			const { password, ...rest } = formData;
@@ -40,5 +47,6 @@ export const actions = {
 				});
 			}
 		}
+		throw redirect(303, '/home');
 	}
 } satisfies Actions;
