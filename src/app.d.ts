@@ -8,7 +8,7 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: AuthModel;
+			user: AuthModel | undefined;
 			pb: TypedPocketBase;
 		}
 		// interface PageData {

@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { LoaderCircle } from 'lucide-svelte';
+	import { LoaderCircle, TriangleAlert } from 'lucide-svelte';
 
 	import { enhance } from '$app/forms';
+	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -19,6 +20,11 @@
 					Enter your email below to login to your account
 				</p>
 			</div>
+			<Alert.Root variant="destructive">
+				<TriangleAlert class="h-4 w-4" />
+				<Alert.Title>Error</Alert.Title>
+				<Alert.Description>Message</Alert.Description>
+			</Alert.Root>
 			<form
 				class="grid gap-4"
 				method="POST"
