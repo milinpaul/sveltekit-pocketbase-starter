@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { fail, redirect } from '@sveltejs/kit';
 
 import type { PageServerLoad, Actions } from './$types';
+import { ClientResponseError } from 'pocketbase';
 
 const loginSchema = z.object({
 	email: z
@@ -36,7 +37,6 @@ export const actions = {
 			loginSchema.parse(formData);
 			await locals.pb.collection('users').authWithPassword(formData.email, formData.password);
 		} catch (error) {
-			console.log('error', error);
 			const { password, ...rest } = formData;
 
 			if (error instanceof z.ZodError) {
@@ -44,6 +44,13 @@ export const actions = {
 				return fail(422, {
 					data: rest,
 					errors
+				});
+			}
+
+			if (error instanceof ClientResponseError) {
+				return fail(422, {
+					data: rest,
+					message: error?.response?.message
 				});
 			}
 		}

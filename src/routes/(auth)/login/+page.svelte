@@ -22,8 +22,8 @@
 			</div>
 			<Alert.Root variant="destructive">
 				<TriangleAlert class="h-4 w-4" />
-				<Alert.Title>Error</Alert.Title>
-				<Alert.Description>Message</Alert.Description>
+				<Alert.Title>Cannot able to login</Alert.Title>
+				<Alert.Description>{form?.message ?? 'An error occured while login.'}</Alert.Description>
 			</Alert.Root>
 			<form
 				class="grid gap-4"
