@@ -20,11 +20,13 @@
 					Enter your email below to login to your account
 				</p>
 			</div>
-			<Alert.Root variant="destructive">
-				<TriangleAlert class="h-4 w-4" />
-				<Alert.Title>Cannot able to login</Alert.Title>
-				<Alert.Description>{form?.message ?? 'An error occured while login.'}</Alert.Description>
-			</Alert.Root>
+			{#if form?.message}
+				<Alert.Root variant="destructive">
+					<TriangleAlert class="h-4 w-4" />
+					<Alert.Title>Cannot able to login</Alert.Title>
+					<Alert.Description>{form?.message ?? 'An error occured while login.'}</Alert.Description>
+				</Alert.Root>
+			{/if}
 			<form
 				class="grid gap-4"
 				method="POST"
