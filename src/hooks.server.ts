@@ -2,6 +2,8 @@ import { redirect, type Handle } from '@sveltejs/kit';
 import { dev } from '$app/environment';
 import pocketbase from '$lib/server/pocketbase';
 
+// const SKIPPED_AUTH_URLS = ['/login', '/register', '/reset-password'];
+
 export const handle = (async ({ event, resolve }) => {
 	const IS_SECURE = dev === true ? false : true;
 	event.locals.pb = pocketbase;
@@ -9,7 +11,11 @@ export const handle = (async ({ event, resolve }) => {
 
 	if (!event.locals.pb.authStore.isValid) {
 		event.locals.pb.authStore.clear();
-		if (event.url.pathname !== '/login' && event.url.pathname !== '/register') {
+		if (
+			event.url.pathname !== '/login' &&
+			event.url.pathname !== '/register' &&
+			event.url.pathname !== '/reset-password'
+		) {
 			throw redirect(303, '/login');
 		}
 	}
@@ -23,7 +29,11 @@ export const handle = (async ({ event, resolve }) => {
 		}
 	} catch (_: unknown) {
 		event.locals.pb.authStore.clear();
-		if (event.url.pathname !== '/login' && event.url.pathname !== '/register') {
+		if (
+			event.url.pathname !== '/login' &&
+			event.url.pathname !== '/register' &&
+			event.url.pathname !== '/reset-password'
+		) {
 			throw redirect(303, '/login');
 		}
 	}
