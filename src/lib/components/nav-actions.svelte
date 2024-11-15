@@ -83,19 +83,11 @@
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import Ellipsis from "lucide-svelte/icons/ellipsis";
 	import Star from "lucide-svelte/icons/star";
-	import { untrack } from "svelte";
 
 	let open = $state(false);
-
-	$effect(() => {
-		untrack(() => {
-			open = true;
-		});
-	});
 </script>
 
 <div class="flex items-center gap-2 text-sm">
-	<div class="text-muted-foreground hidden font-medium md:inline-block">Edit Oct 08</div>
 	<Button variant="ghost" size="icon" class="h-7 w-7">
 		<Star />
 	</Button>
