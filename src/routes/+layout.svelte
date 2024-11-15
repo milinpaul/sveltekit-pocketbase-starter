@@ -2,9 +2,6 @@
 	import { page } from '$app/stores';
 	import { PUBLIC_APP_NAME } from '$env/static/public';
 	import '../app.css';
-
-	// Turn off the prerendering the routes.
-	export const prerender = false;
 </script>
 
 <svelte:head>
