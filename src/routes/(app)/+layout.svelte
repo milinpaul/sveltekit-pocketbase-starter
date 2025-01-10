@@ -1,12 +1,24 @@
-<script lang="ts">
+<script>
+	import { page } from '$app/stores';
+	import { PUBLIC_APP_NAME } from '$env/static/public';
+	import '../../app.css';
+
 	import AppSidebar from '$lib/components/app-sidebar.svelte';
 	import NavActions from '$lib/components/nav-actions.svelte';
-	import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
-	import { Separator } from '$lib/components/ui/separator/index.js';
-	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
+	import { Separator } from '$lib/components/ui/separator';
+	import * as Sidebar from '$lib/components/ui/sidebar';
 
 	export let data;
 </script>
+
+<svelte:head>
+	<title>{$page.data.title ? `${PUBLIC_APP_NAME} - ${$page.data.title}` : PUBLIC_APP_NAME}</title>
+	<meta
+		name="description"
+		content="A simple bookmarking application to store your favourite bookmarks."
+	/>
+</svelte:head>
 
 <Sidebar.Provider>
 	<AppSidebar user={data?.user} />
@@ -30,8 +42,7 @@
 			</div>
 		</header>
 		<div class="flex flex-1 flex-col gap-4 px-4 py-10">
-			<div class="mx-auto h-24 w-full max-w-3xl rounded-xl bg-muted/50"></div>
-			<div class="mx-auto h-full w-full max-w-3xl rounded-xl bg-muted/50"></div>
+			<slot />
 		</div>
 	</Sidebar.Inset>
 </Sidebar.Provider>

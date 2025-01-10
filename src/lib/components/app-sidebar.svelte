@@ -1,11 +1,13 @@
-<script lang="ts" module>
-	import Blocks from 'lucide-svelte/icons/blocks';
-	import Calendar from 'lucide-svelte/icons/calendar';
+<script lang="ts">
 	import House from 'lucide-svelte/icons/house';
-	import MessageCircleQuestion from 'lucide-svelte/icons/message-circle-question';
 	import Search from 'lucide-svelte/icons/search';
-	import Settings2 from 'lucide-svelte/icons/settings-2';
-	import Trash2 from 'lucide-svelte/icons/trash-2';
+
+	import NavFavorites from '$lib/components/nav-favorites.svelte';
+	import NavMain from '$lib/components/nav-main.svelte';
+	import * as Sidebar from '$lib/components/ui/sidebar';
+	import type { ComponentProps } from 'svelte';
+	import UserMenu from './user-menu.svelte';
+	import type { UsersResponse } from '../../pocketbase-types';
 
 	const data = {
 		navMain: [
@@ -19,33 +21,6 @@
 				url: '/',
 				icon: House,
 				isActive: true
-			}
-		],
-		navSecondary: [
-			{
-				title: 'Calendar',
-				url: '#',
-				icon: Calendar
-			},
-			{
-				title: 'Settings',
-				url: '#',
-				icon: Settings2
-			},
-			{
-				title: 'Templates',
-				url: '#',
-				icon: Blocks
-			},
-			{
-				title: 'Trash',
-				url: '#',
-				icon: Trash2
-			},
-			{
-				title: 'Help',
-				url: '#',
-				icon: MessageCircleQuestion
 			}
 		],
 		favorites: [
@@ -66,6 +41,26 @@
 			},
 			{
 				name: 'Book Notes & Reading List',
+				url: '#',
+				emoji: '📚'
+			},
+			{
+				name: 'Project Management & Task Tracking0',
+				url: '#',
+				emoji: '📊'
+			},
+			{
+				name: 'Family Recipe Collection & Meal Planning9',
+				url: '#',
+				emoji: '🍳'
+			},
+			{
+				name: 'Fitness Tracker & Workout Routines0',
+				url: '#',
+				emoji: '💪'
+			},
+			{
+				name: 'Book Notes & Reading List0',
 				url: '#',
 				emoji: '📚'
 			},
@@ -210,15 +205,6 @@
 	interface AppSidebar extends ComponentProps<typeof Sidebar.Root> {
 		user: UsersResponse;
 	}
-</script>
-
-<script lang="ts">
-	import NavFavorites from '$lib/components/nav-favorites.svelte';
-	import NavMain from '$lib/components/nav-main.svelte';
-	import * as Sidebar from '$lib/components/ui/sidebar';
-	import type { ComponentProps } from 'svelte';
-	import UserMenu from './user-menu.svelte';
-	import type { UsersResponse } from '../../pocketbase-types';
 
 	let { user, ref = $bindable(null), ...restProps }: AppSidebar = $props();
 </script>
@@ -233,7 +219,7 @@
 		<!-- <NavWorkspaces workspaces={data.workspaces} /> -->
 	</Sidebar.Content>
 	<Sidebar.Footer>
-		<UserMenu user={user} />
+		<UserMenu {user} />
 	</Sidebar.Footer>
 	<Sidebar.Rail />
 </Sidebar.Root>
