@@ -212,7 +212,6 @@
 <Sidebar.Root bind:ref class="border-r-0" {...restProps}>
 	<Sidebar.Header>
 		<Logo />
-
 		<NavMain items={data.navMain} />
 	</Sidebar.Header>
 	<Sidebar.Content>
