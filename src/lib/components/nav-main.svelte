@@ -1,8 +1,8 @@
 <script lang="ts">
-	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 
 	let {
-		items,
+		items
 	}: {
 		items: {
 			title: string;
@@ -10,7 +10,6 @@
 			// This should be `Component` after lucide-svelte updates types
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			icon: any;
-			isActive?: boolean;
 		}[];
 	} = $props();
 </script>
@@ -18,7 +17,7 @@
 <Sidebar.Menu>
 	{#each items as item (item.title)}
 		<Sidebar.MenuItem>
-			<Sidebar.MenuButton isActive={item.isActive}>
+			<Sidebar.MenuButton isActive>
 				{#snippet child({ props })}
 					<a href={item.url} {...props}>
 						<item.icon />

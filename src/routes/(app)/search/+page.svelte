@@ -1,0 +1,1 @@
+<section>Search page</section>

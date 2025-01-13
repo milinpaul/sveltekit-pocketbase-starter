@@ -8,19 +8,18 @@
 	import type { ComponentProps } from 'svelte';
 	import UserMenu from './user-menu.svelte';
 	import type { UsersResponse } from '../../pocketbase-types';
-	import { Album } from 'lucide-svelte';
+	import Logo from './logo.svelte';
 
 	const data = {
 		navMain: [
 			{
 				title: 'Home',
 				url: '/',
-				icon: House,
-				isActive: true
+				icon: House
 			},
 			{
 				title: 'Search',
-				url: '#',
+				url: '/search',
 				icon: Search
 			}
 		],
@@ -212,10 +211,8 @@
 
 <Sidebar.Root bind:ref class="border-r-0" {...restProps}>
 	<Sidebar.Header>
-		<div class="flex items-center justify-center gap-2 p-2">
-			<Album class="size-10 stroke-primary stroke-1" />
-			<h1 class="text-xl font-semibold tracking-wider text-primary">Bookmarkly</h1>
-		</div>
+		<Logo />
+
 		<NavMain items={data.navMain} />
 	</Sidebar.Header>
 	<Sidebar.Content>

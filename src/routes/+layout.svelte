@@ -2,6 +2,8 @@
 	import { page } from '$app/stores';
 	import { PUBLIC_APP_NAME } from '$env/static/public';
 	import '../app.css';
+
+	let { children } = $props();
 </script>
 
 <svelte:head>
@@ -12,4 +14,4 @@
 	/>
 </svelte:head>
 
-<slot></slot>
+{@render children()}

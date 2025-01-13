@@ -9,7 +9,7 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Sidebar from '$lib/components/ui/sidebar';
 
-	export let data;
+	let { children, data } = $props();
 </script>
 
 <svelte:head>
@@ -42,7 +42,7 @@
 			</div>
 		</header>
 		<div class="flex flex-1 flex-col gap-4 px-4 py-10">
-			<slot />
+			{@render children()}
 		</div>
 	</Sidebar.Inset>
 </Sidebar.Provider>
