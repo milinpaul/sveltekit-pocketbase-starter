@@ -1,5 +1,5 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { PUBLIC_APP_NAME } from '$env/static/public';
 	import '../../app.css';
 
@@ -23,6 +23,7 @@
 <Sidebar.Provider>
 	<AppSidebar user={data?.user} />
 	<Sidebar.Inset>
+		{#if !['/home', '/search', '/settings'].includes(page.url.pathname)}
 		<header class="flex h-14 shrink-0 items-center gap-2">
 			<div class="flex flex-1 items-center gap-2 px-3">
 				<Sidebar.Trigger />
@@ -41,6 +42,9 @@
 				<NavActions />
 			</div>
 		</header>
+		 
+		{/if}
+		
 		<div class="flex flex-1 flex-col gap-4 px-4 py-4">
 			{@render children()}
 		</div>

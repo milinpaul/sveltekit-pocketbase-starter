@@ -72,7 +72,7 @@
 				<DropdownMenu.Separator />
 				<DropdownMenu.Group>
 					<DropdownMenu.Item>
-						<Button variant="ghost" href='/account/settings' class="font-normal outline-none text-sm py-1.5 px-2 rounded-sm gap-2 flex items-center h-fit focus-visible:ring-0">
+						<Button variant="ghost" href='/settings' class="font-normal outline-none text-sm py-1.5 px-2 rounded-sm gap-2 flex items-center h-fit focus-visible:ring-0">
 							<Cog />
 						Settings	
 						</Button>
