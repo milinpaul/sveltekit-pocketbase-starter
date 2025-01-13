@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-	<title>{$page.data.title ? `${PUBLIC_APP_NAME} - ${$page.data.title}` : PUBLIC_APP_NAME}</title>
+	<title>{PUBLIC_APP_NAME}</title>
 	<meta
 		name="description"
 		content="A simple bookmarking application to store your favourite bookmarks."
@@ -41,7 +41,7 @@
 				<NavActions />
 			</div>
 		</header>
-		<div class="flex flex-1 flex-col gap-4 px-4 py-10">
+		<div class="flex flex-1 flex-col gap-4 px-4 py-4">
 			{@render children()}
 		</div>
 	</Sidebar.Inset>

@@ -14,7 +14,7 @@
 		navMain: [
 			{
 				title: 'Home',
-				url: '/',
+				url: '/home',
 				icon: House
 			},
 			{
